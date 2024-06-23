@@ -1,22 +1,21 @@
 const mongoose = require('mongoose');
 
-// Schema für Synthesizer-Muster
-// Schema für Punkte ohne _id
-const pointSchema = new mongoose.Schema({
+const PointSchema = new mongoose.Schema({
     x: Number,
-    y: Number,
-    color: String
-}, { _id: false });
-
-// Schema für Synthesizer-Muster
-const synthDataSchema = new mongoose.Schema({
-    name: String,
-    points: [pointSchema],
-    created_at: { type: Date, default: Date.now },
-    updated_at: { type: Date, default: Date.now }
+    y: Number
 });
 
+const LineSchema = new mongoose.Schema({
+    points: [PointSchema]
+});
 
-const SynthData = mongoose.model('SynthData', synthDataSchema);
+const SynthDataSchema = new mongoose.Schema({
+    name: String,
+    lines: {
+        red: [LineSchema],
+        yellow: [LineSchema],
+        green: [LineSchema]
+    }
+});
 
-module.exports = SynthData;
+module.exports = mongoose.model('SynthData', SynthDataSchema);
